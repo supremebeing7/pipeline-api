@@ -16,6 +16,10 @@ class Deal
       end
     end
 
+    def order_by_completion
+      all.sort
+    end
+
     def fetch
       response = get('/api/v3/deals.json', { query: { api_key: KEY } })
 
@@ -35,6 +39,12 @@ class Deal
     @value_in_cents = value_in_cents
     @percent_complete = percent_complete
     @stage_name = stage_name
+  end
+
+  private
+
+  def <=>(other_deal)
+    percent_complete <=> other_deal.percent_complete
   end
 end
 
