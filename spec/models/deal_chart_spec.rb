@@ -38,7 +38,7 @@ RSpec.describe DealChart, type: :model do
     it 'has the correct title and axis labels' do
       expect(deal_chart.build.options['title']).to eq 'Deals in the pipeline'
       expect(deal_chart.build.options['hAxis'][:title]).to eq 'Deal Stage'
-      expect(deal_chart.build.options['vAxis'][:title]).to eq 'Total Value'
+      expect(deal_chart.build.options['vAxis'][:title]).to eq 'Total Value (USD)'
     end
 
     it 'has the correct first column' do
@@ -55,12 +55,4 @@ RSpec.describe DealChart, type: :model do
       expect(second_column.last.v).to eq 100
     end
   end
-  # def build_chart
-  #   data_table = GoogleVisualr::DataTable.new
-  #   data_table.new_column('string', 'Deal Stage')
-  #   data_table.new_column('number', 'Sales Value')
-  #   data_table.add_rows(rows_for_chart)
-  #
-  #   GoogleVisualr::Interactive::ColumnChart.new(data_table, chart_options)
-  # end
 end

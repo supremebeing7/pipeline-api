@@ -2,8 +2,10 @@ class DealChart
   attr_accessor :deals
 
   CURRENCY = 'USD'
+  CHART_WIDTH = 1200
+  CHART_HEIGHT = 600
   CHART_TITLE = 'Deals in the pipeline'
-  V_AXIS_LABEL = 'Total Value'
+  V_AXIS_LABEL = 'Total Value (USD)'
   H_AXIS_LABEL = 'Deal Stage'
 
   def initialize(deals)
@@ -22,26 +24,26 @@ class DealChart
   private
 
   def rows_for_chart
-    totals_by_stage.each_with_object([]) do |(stage, cents), arr|
+    totals_by_stage.each_with_object([]) do |(stage, cents), rows|
       money = Money.new(cents, CURRENCY)
-      arr << [stage, { v: money.dollars, f: money.format }]
+      rows << [stage, { v: money.dollars, f: money.format }]
     end
   end
 
   def totals_by_stage
-    deals.each_with_object({}) do |deal, hsh|
-      if hsh.has_key?(deal.stage_name)
-        hsh[deal.stage_name] += deal.value_in_cents
+    deals.each_with_object({}) do |deal, totals|
+      if totals.has_key?(deal.stage_name)
+        totals[deal.stage_name] += deal.value_in_cents
       else
-        hsh[deal.stage_name] = deal.value_in_cents
+        totals[deal.stage_name] = deal.value_in_cents
       end
     end
   end
 
   def chart_options
     {
-      width: 1200,
-      height: 600,
+      width: CHART_WIDTH,
+      height: CHART_HEIGHT,
       title: CHART_TITLE,
       vAxis: {
         title: V_AXIS_LABEL
