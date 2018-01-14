@@ -2,7 +2,8 @@
 
 ## Assumptions
 
-- Only working with American Dollars
+- Only American Dollars
+- Deal stage name always corresponds to the same deal stage percent (e.g. a deal in stage "Proposal" is always 50% percent complete)
 
 ## Setup and installation
 

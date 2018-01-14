@@ -4,6 +4,7 @@ class Deal
   base_uri 'https://api.pipelinedeals.com'
 
   KEY = ENV['PIPELINE_API_KEY']
+  API_CACHE_EXPIRES = 12.hours
 
   class << self
     def all
@@ -16,20 +17,29 @@ class Deal
       end
     end
 
-    def order_by_completion
-      all.sort
-    end
-
     def fetch
+      cached = Rails.cache.read 'deals-api-response'
+      return cached if cached.present?
+
       response = get('/api/v3/deals.json', { query: { api_key: KEY } })
 
       if response.success?
-        response.body
+        Rails.cache.fetch 'deals-api-response', expires_in: API_CACHE_EXPIRES do
+          response.body
+        end
       else
         # TODO
       end
     # rescue
     #   # TODO
+    end
+
+    def order_by_completion
+      all.sort
+    end
+
+    def chart
+      DealChart.new(order_by_completion).build
     end
   end
 

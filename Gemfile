@@ -31,7 +31,9 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'google_visualr', '~> 2.5'
 gem 'httparty', '~> 0.15'
+gem 'money', '~> 6.10'
 
 group :development, :test do
   gem 'pry-rails'
